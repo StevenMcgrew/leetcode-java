@@ -1,43 +1,33 @@
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode() {
-    }
-
-    ListNode(int val) {
-        this.val = val;
-    }
-
-    ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
-    }
-}
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
-    public ListNode mergeNodes(ListNode head) {
-        ListNode dummyHead = new ListNode(0);
-        ListNode curr = dummyHead;
-        int sum =  0;
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> output = new ArrayList<>();
+        output.add(new ArrayList<>());
 
-        while (head != null) {
-            if (head.val == 0 && sum != 0) {
-                curr.next = new ListNode(sum);
-                curr = curr.next;
-                sum = 0;
-            } else {
-                sum += head.val;
+        for (int num : nums) {
+            int innerLoopStop = output.size();
+            List<Integer> singleElementList = new ArrayList<>();
+            singleElementList.add(num);
+            output.add(singleElementList);
+
+            for (int j = 1; j < innerLoopStop; j++) {
+                List<Integer> multipleElementList = new ArrayList<>(output.get(j));
+                multipleElementList.add(num);
+                output.add(multipleElementList);
             }
-            head = head.next;
         }
 
-        return dummyHead.next;
+        return output;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-
+        int[] nums = {1, 2, 3};
+        Solution s = new Solution();
+        List<List<Integer>> result = s.subsets(nums);
+        System.out.println(result);
     }
 }
